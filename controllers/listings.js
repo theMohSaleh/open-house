@@ -6,10 +6,9 @@ const Listing = require('../models/listing');
 router.get('/', async (req, res) => {
     try {
         const listings = await Listing.find({});
-        console.log('All listings', listings);
-        res.render('listings/index.ejs');
+        res.render('listings/index.ejs', listings);
     } catch (error) {
-        console.log(error);
+        res.send(error);
     }
 });
 
