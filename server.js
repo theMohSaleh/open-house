@@ -9,6 +9,7 @@ const session = require('express-session');
 const path = require('path');
 
 const authController = require('./controllers/auth.js');
+const listingsController = require('./controllers/listings.js');
 
 const port = process.env.PORT ? process.env.PORT : '3000';
 
@@ -46,6 +47,7 @@ app.get('/vip-lounge', (req, res) => {
 });
 
 app.use('/auth', authController);
+app.use('/listings', listingsController);
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
