@@ -8,6 +8,9 @@ const morgan = require('morgan');
 const session = require('express-session');
 const path = require('path');
 
+// CONTROLLER + MIDDLEWARE
+const isSignedIn = require('./middleware/is-signed-in.js');
+const passUserToView = require('./middleware/pass-user-to-view.js');
 const authController = require('./controllers/auth.js');
 const listingsController = require('./controllers/listings.js');
 
@@ -32,22 +35,25 @@ app.use(
   })
 );
 
+app.use(passUserToView);
+
 app.get('/', (req, res) => {
   res.render('index.ejs', {
     user: req.session.user,
   });
 });
 
-app.get('/vip-lounge', (req, res) => {
-  if (req.session.user) {
-    res.send(`Welcome to the party ${req.session.user.username}.`);
-  } else {
-    res.send('Sorry, no guests allowed.');
-  }
-});
+// app.get('/vip-lounge', (req, res) => {
+//   if (req.session.user) {
+//     res.send(`Welcome to the party ${req.session.user.username}.`);
+//   } else {
+//     res.send('Sorry, no guests allowed.');
+//   }
+// });
 
 app.use('/auth', authController);
-app.use('/listings', listingsController);
+
+app.use('/listings', isSignedIn, listingsController);
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);

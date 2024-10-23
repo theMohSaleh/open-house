@@ -10,12 +10,12 @@ const listingSchema = new mongoose.Schema({
         required: true,
     },
     price: {
-        type: number,
+        type: Number,
         required: true,
         min: 0,
     },
     size: {
-        type: number,
+        type: Number,
         required: true,
         min: 0,
     },
